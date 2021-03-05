@@ -3,6 +3,9 @@ package com.knoldus.cgapi
 import scala.collection.mutable.HashMap
 import java.text.SimpleDateFormat
 
+/**
+ * Interacts with Coingecko API for crypto price
+ */
 object CoinGeckoAPI {
   val apiURL = "https://api.coingecko.com/api/v3"
 
