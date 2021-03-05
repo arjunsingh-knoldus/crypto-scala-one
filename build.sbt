@@ -1,8 +1,16 @@
+
 name := "crypto"
 
 version := "0.1"
 
-scalaVersion := "2.13.5"
+scalaVersion := "2.12.13"
+
+enablePlugins(JavaAppPackaging)
+maintainer := "Arjun Singh <arjun.singh@knoldus.com>"
+
+packageSummary := "Crypto Price test app"
+
+packageDescription := """A fun package description of our software,with multiple lines.""".stripMargin
 
 val coinGeckoApiDependencies = Seq (
   "com.lihaoyi" %% "ujson" % "1.2.3",
