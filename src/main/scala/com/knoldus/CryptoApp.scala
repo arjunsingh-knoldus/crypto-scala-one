@@ -59,55 +59,68 @@ object CryptoApp extends App {
       |""".stripMargin
 
 
-  def list(argsMap: HashMap[String, String]) = {
-    (List("type", "t") collectFirst argsMap).fold {
-      ArgumentParser.printHelpExit(listHelp)
-    } {
-      listType => println(CoinGeckoAPI.list(listType))
+  def list(argsMap: => HashMap[String, String]) = {
+    try {
+      (List("type", "t") collectFirst argsMap).fold {
+        ArgumentParser.printHelpExit(listHelp)
+      } {
+        listType => println(CoinGeckoAPI.list(listType))
+      }
+    } catch {
+      case x: IllegalArgumentException => ArgumentParser.printHelpExit(listHelp)
     }
   }
 
-  def price(argsMap: HashMap[String, String]) = {
-    val coinID: String = argsMap.getOrElse("coinid", argsMap.get("c").fold {
+  def price(argsMap: => HashMap[String, String]) = {
+    lazy val coinID: String = argsMap.getOrElse("coinid", argsMap.get("c").fold {
       ArgumentParser.printHelpExit(priceHelp)
       ""
-    } {x=>x})
-    val toCurrency: String = argsMap.getOrElse("tocurrency", argsMap.get("tc").fold {
+    } { x => x })
+    lazy val toCurrency: String = argsMap.getOrElse("tocurrency", argsMap.get("tc").fold {
       ArgumentParser.printHelpExit(priceHelp)
       ""
-    } {x=>x})
-    println(CoinGeckoAPI.getPrice(coinID, toCurrency, argsMap -- Set("coinid", "c", "tocurrency", "tc")))
+    } { x => x })
+    try
+      println(CoinGeckoAPI.getPrice(coinID, toCurrency, argsMap -- Set("coinid", "c", "tocurrency", "tc")))
+    catch {
+      case x: IllegalArgumentException => ArgumentParser.printHelpExit(priceHelp)
+    }
   }
 
-  def ohlc(argsMap: HashMap[String, String]) = {
-    val coinID: String = argsMap.getOrElse("coinid", argsMap.get("c").fold {
+  def ohlc(argsMap: => HashMap[String, String]) = {
+    lazy val coinID: String = argsMap.getOrElse("coinid", argsMap.get("c").fold {
       ArgumentParser.printHelpExit(ohclHelp)
       ""
-    } {x=>x})
-    val toCurrency: String = argsMap.getOrElse("tocurrency", argsMap.get("tc").fold {
+    } { x => x })
+    lazy val toCurrency: String = argsMap.getOrElse("tocurrency", argsMap.get("tc").fold {
       ArgumentParser.printHelpExit(ohclHelp)
       ""
-    } {x=>x})
-    val days: String = argsMap.get("days").fold {
+    } { x => x })
+    lazy val days: String = argsMap.get("days").fold {
       ArgumentParser.printHelpExit(ohclHelp)
       ""
-    } {x=>x}
-    println(CoinGeckoAPI.ohlc(coinID, toCurrency, days))
+    } { x => x }
+    try
+      println(CoinGeckoAPI.ohlc(coinID, toCurrency, days))
+    catch {
+      case x: IllegalArgumentException => ArgumentParser.printHelpExit(ohclHelp)
+    }
   }
 
   // parse sub-command
   (if (args.length > 0) ArgumentParser.command(args(0)) else None) match {
     case Some(cmd: String) => {
-      val argsMap = ArgumentParser.parse(args.tail)
+      lazy val argsMap = ArgumentParser.parse(args.tail)
       cmd toLowerCase match {
         case "list" => list(argsMap)
         case "price" => price(argsMap)
         case "ohlc" => ohlc(argsMap)
         case _ => ArgumentParser.printHelpExit(globalHelp)
       }
-
     }
     case _ => ArgumentParser.printHelpExit(globalHelp)
 
   }
 }
+
+
