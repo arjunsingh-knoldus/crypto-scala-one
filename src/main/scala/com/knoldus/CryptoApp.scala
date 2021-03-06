@@ -8,7 +8,7 @@ import scala.collection.mutable.HashMap
 object CryptoApp extends App {
 
   lazy val globalHelp =
-    """Usage: crypto COMMAND [options]
+    """Usage: $ crypto COMMAND [options]
       |
       |Commands:
       |list     List Available Coins and Currencies
@@ -17,6 +17,7 @@ object CryptoApp extends App {
       |
       |More Help:
       |crypto command --help
+      |
       |""".stripMargin
 
   lazy val listHelp =
@@ -48,7 +49,7 @@ object CryptoApp extends App {
       |""".stripMargin
 
   lazy val ohclHelp =
-    """Get Open, High, Low, Close data for a crypto currency for specefic number of days.
+    """Get Open, High, Low, Close data for a crypto currency for specific number of days.
       |
       |Usage: crypto ohcl --coinid COINID --tocurrency CURRENCY --days DAYS
       |

@@ -2,7 +2,7 @@ package com.knoldus.cgapi
 
 import scala.collection.mutable.HashMap
 import java.text.SimpleDateFormat
-
+import java.math.BigDecimal
 /**
  * Interacts with Coingecko API for crypto price
  */
@@ -25,7 +25,7 @@ object CoinGeckoAPI {
         if((id.length <37) && ((id.length + symbol.length + name.length) < 100) ) s"${id.padTo(40, ' ')}\t${symbol.padTo(15, ' ')}\t${name}" else ""
 
       }
-    }).mkString(s"${"ID".padTo(40, ' ')}\t${"Symbol".padTo(15, ' ')}\tName\n","\n","")
+    }).mkString(s"${"ID".padTo(40, ' ')}\t${"Symbol".padTo(15, ' ')}\tName\n\n","\n","")
     case "currency" => jsonResponse(s"$apiURL/simple/supported_vs_currencies").arr.map(x => s"${x.toString.replaceAll("\"", "")}").mkString("\t")
   }
 
@@ -34,9 +34,12 @@ object CoinGeckoAPI {
 
     (for (coin <- coinIDs.split(","); currency <- toCurrencies.split(","))
       yield {
-        try
-          s"$coin/$currency : ${json(coin)(currency).num}"
-        catch {
+        try {
+          var interimOut = f"${Console.RED}$coin${Console.RESET}\n\t$currency ${Console.GREEN}${json(coin)(currency).num}%.2f${Console.RESET}"
+          for((k,v) <- json(coin).obj if (k.startsWith(currency)) && k != currency) interimOut = f"$interimOut\n\t$k: ${Console.GREEN}${v.num}%.2f${Console.RESET}"
+          json(coin).obj.get("last_updated_at").fold{}{x=>{interimOut = f"${interimOut}\n\tLastUpdated: ${timeToStr(x.num.toLong * 1000)}"}}
+          s"$interimOut\n"
+        } catch {
           case _: NoSuchElementException => "Invalid Coin Or Currency. Use list to see available coins/currencies"
         }
       }
