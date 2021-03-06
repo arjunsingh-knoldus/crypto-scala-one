@@ -17,7 +17,13 @@ val coinGeckoApiDependencies = Seq (
   "com.lihaoyi" %% "requests" % "0.6.5"
 )
 
-lazy val cliParser = project.in(file("cli-parser" ))
+
+lazy val cliParser = project.in(file("cli-parser" )).settings(
+  libraryDependencies ++= Seq(
+    // test dependecies
+    "org.scalatest" %% "scalatest" % "3.3.0-SNAP3" % Test,
+  )
+)
 lazy val coinGeckoAPI = project.in(file("coingecko-api"))
   .settings( libraryDependencies ++= coinGeckoApiDependencies )
 
