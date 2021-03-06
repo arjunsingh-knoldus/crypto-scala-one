@@ -1,6 +1,10 @@
+# IDE stuff
 .bsp
 .idea
 *.iml
+# test worksheets
+*.sc
+# classes and intermediate build files
 target
 project
 !project/build.properties
