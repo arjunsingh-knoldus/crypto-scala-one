@@ -24,8 +24,8 @@ object CryptoApp extends App {
       |Usage: crypto list --type T
       |
       |Options:
-      |--type, -t                   Any of [coins,currency]
-      |                             coins: lists cypto coins, use with grep to refine results
+      |--type, -t                   Any of (coins/currency) [Required]
+      |                             coins: lists crypto coins, use with grep to refine results
       |                             currency: lists vs currencies
       |""".stripMargin
 
@@ -35,8 +35,8 @@ object CryptoApp extends App {
       |Usage: crypto price --coinid COINID --tocurrency CURRENCY [options]
       |
       |Options:
-      |--coinid, -c                 comma separated crypto-coin ids, eg bitcoin,monero
-      |--tocurrency, -tc            comma separated currency, eg inr,usd,eur
+      |--coinid, -c                 comma separated crypto-coin ids, eg bitcoin,monero [Required]
+      |--tocurrency, -tc            comma separated currency, eg inr,usd,eur [Required]
       |--include_market_cap         true/false
       |--include_24hr_vol           true/false
       |--include_24hr_change        true/false
@@ -52,10 +52,10 @@ object CryptoApp extends App {
       |
       |Usage: crypto ohcl --coinid COINID --tocurrency CURRENCY --days DAYS
       |
-      |Options:
+      |Required Options:
       |--coinid, -c                 crypto coin id
       |--tocurrency, -tc            The target/vs currency of market data
-      |--days                       Data up to number of days ago (1/7/14/30/90/180/365/max)
+      |--days                       Data up to number of days ago any of (1/7/14/30/90/180/365/max)
       |""".stripMargin
 
 
