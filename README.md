@@ -105,4 +105,4 @@ date time           	open        	high        	low         	close
 ```
 
 ## Release
-###-  [0.1](https://github.com/arjunsingh-knoldus/crypto-scala-one/releases/tag/0.1)
+### [0.1](https://github.com/arjunsingh-knoldus/crypto-scala-one/releases/tag/0.1)
