@@ -103,3 +103,6 @@ date time           	open        	high        	low         	close
 2021-03-06 22:30:00 	3509820.62  	3509820.62  	3496293.81  	3508833.41  
 2021-03-06 23:00:00 	3507418.48  	3507878.08  	3506282.18  	3507878.08                    
 ```
+
+## Release
+###-  [0.1](https://github.com/arjunsingh-knoldus/crypto-scala-one/releases/tag/0.1)
